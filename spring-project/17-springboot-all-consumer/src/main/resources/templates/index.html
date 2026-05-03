@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{|/css/bootstrap.min.css|}">
+    <script th:src="@{|/js/jquery.min.js|}"></script>
+    <script th:src="@{|/js/bootstrap.min.js|}"></script>
+    <title>Title</title>
+</head>
+
+<body style="'margin:50px;'">
+<div><a href="#">添加用户</a></div>
+<table class="table table-striped">
+    <caption>条纹表格布局</caption>
+    <thead>
+    <tr>
+        <th>序号</th>
+        <th>昵称</th>
+        <th>手机</th>
+        <th>邮箱</th>
+        <th>地址</th>
+        <th>性别</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="userObj:${userList}">
+
+        <td th:text="${userObjStat.count}"></td>
+        <td th:text="${userObj.nick}">张三</td>
+        <td th:text="${userObj.phone}">1370000000</td>
+        <td th:text="${userObj.email}">123456@163.com</td>
+        <td th:text="${userObj.address}">北京</td>
+        <th th:text="${userObj.sex==1?'男':'女'}">性别</th>
+        <td>
+            <a  th:href="@{|/goUpdate/${userObj.id}|}">修改</a>
+            <a  th:href="@{|/delete/${userObj.id}|}" id="deleteBut">删除</a>
+
+        </td>
+    </tr>
+
+    </tbody>
+</table>
+<script>
+
+    $(function(){
+        $("#deleteBut").bind("click",function(){
+            if(!confirm("您确认要删除数据？")){
+                return false;
+            }
+
+        })
+    })
+</script>
+</body>
+</html>

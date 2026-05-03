@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!-- 启动Spring的注解  ,component-scan 包路径扫描用于扫描到我们自定的带有注解的，component-scan这个标签的作用包含annotation-config的功能 -->
+    <context:annotation-config></context:annotation-config>
+
+    <!-- 启动SpringSession， 并将Session存入Redis中 -->
+    <bean id="redisHttpSessionConfiguration" class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
+        <!-- 设置Cookie的存放规则-->
+        <property name="cookieSerializer"  ref="defaultCookieSerializer"/>
+
+    </bean>
+
+    <bean id="defaultCookieSerializer" class="org.springframework.session.web.http.DefaultCookieSerializer">
+        <!-- 设置Cookie的访问路径 用于实现同一个域名下不同的项目中的Session共享-->
+        <property name="cookiePath" value="/"/>
+        <!-- 设置Cookie的域名 ，用于实现同根域名下 不同的二级子域名的Session共享问题
+            注意：在Tomcat8（包括）以后域名设置不需要添加 . 例如myweb.com
+                  在Tomcat8(不包括)以前域名设置需要添加 . 例如 .myweb.com
+         -->
+        <property name="domainName" value="myweb.com"/>
+
+    </bean>
+    <!-- 配置jedis连接工厂，用于连接redis -->
+    <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="hostName" value="192.168.31.128"/>
+        <property name="port" value="6379"/>
+        <property name="password" value="123456"/>
+    </bean>
+
+</beans>

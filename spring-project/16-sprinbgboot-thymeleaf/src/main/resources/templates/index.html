@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>这是Index.html页面</h1><br>
+
+<span th:text="${username}">姓名</span><br>
+
+--------------------------标准表达式开始----------------------------------<br>
+<!--
+  标准变量表达式
+    ${user}获取Request作用域中key为user的变量，获取如果这个变量是对象类型，则需要 .属性名用于获取对象中的数据(model)
+    如果这个属性也是对象类型（model），需要继续使用 .属性名获取数据例如 ${user.userInfo.address}
+
+    如果不使用.方法获取属性值则会将对象的地址直接显示到页面上，只有基本数据个是可以在页面中进行显示。
+    注意：thymeleaf中不仅可以使用对象.属性名的方法获取数据，还可以直接调用作用域中对象的任意一个公共方法
+    -->
+用户:<span th:text="${user}"></span><br>
+姓名:<span th:text="${user.name}"></span><br>
+年龄:<span th:text="${user.getAge()}"></span><br>
+性别:<span th:text="${user.sex}"></span><br><br><br><br><br>
+
+<!--
+    由于标注变量表达式可以替代选择变量表达式，因此开始时通常情况直接使用标准变量表达式即可
+-->
+选择变量表达式
+<div th:object="${user}">
+    用户:<span th:text="${user}"></span><br>
+    姓名:<span th:text="*{name}"></span><br>
+    年龄:<span th:text="*{getAge()}"></span><br>
+    性别:<span th:text="${user.sex}"></span><br><br><br><br><br>
+</div>
+<!-- 通常在一个网站需要连接到另外一个网站时需要使用 -->
+<a th:href="@{http://www.baidu.com}">绝对路径</a><br>
+<!--由于页面上下文路径变化后可能会导致无法完成到资源，因此很少或从来不用 -->
+<a th:href="@{user/add}">页面相对路径</a><br>
+<!--由于是项目上下文因此无论当前页面在哪个目录中，都可以从根目录开始计算需找资源，不会出现找不到资源的情况分，
+因此，开发时经常会用 -->
+<a th:href="@{/user/add}">项目相对路径</a><br>
+
+<a th:href="@{'/user/del?name='+${user.name}}">删除</a><br>
+<a href="@{'/user/del?name='+${user.name}}">删除</a><br>
+--------------------------标准表达式结束----------------------------------<br><br><br>
+
+
+
+
+--------------------------常用属性开始----------------------------------<br>
+
+
+<table>
+
+    <tr>
+        <td>序号</td>
+        <td>姓名</td>
+        <td>年龄</td>
+        <td>性别</td>
+        <td>操作</td>
+
+    </tr>
+
+    <tr th:each="userObj:${userList}">
+        <td th:text="${userObjStat.count}">序号</td>
+        <td th:text="${userObj.name}">姓名</td>
+        <td th:text="${userObj.age}">年龄</td>
+        <td th:text="${userObj.sex}">性别</td>
+        <td> <a >删除</a> <a>修改</a> </td>
+
+    </tr>
+</table>
+<br><br><br>
+
+<table>
+
+    <tr>
+        <td>序号</td>
+        <td>姓名</td>
+        <td>年龄</td>
+        <td>性别</td>
+        <td>操作</td>
+
+    </tr>
+
+    <tr th:each="node:${userMap}">
+        <td th:text="${nodeStat.count}">序号</td>
+        <td th:text="${node.value.name}">姓名</td>
+        <td th:text="${node.value.age}">年龄</td>
+        <td th:text="${node.value.sex}">性别</td>
+        <td> <a >删除</a> <a>修改</a> </td>
+
+    </tr>
+</table>
+<br><br><br>
+
+<table>
+
+    <tr>
+        <td>序号</td>
+        <td>姓名</td>
+        <td>年龄</td>
+        <td>性别</td>
+        <td>操作</td>
+
+    </tr>
+
+    <tr th:each="keyStr:${userMap.keySet()}">
+        <td th:text="${keyStrStat.count}">序号</td>
+        <td th:text="${userMap.get(keyStr).name}">姓名</td>
+        <td th:text="${userMap.get(keyStr).age}">年龄</td>
+        <td th:text="${userMap.get(keyStr).sex}">性别</td>
+        <td> <a >删除</a> <a>修改</a> </td>
+
+    </tr>
+</table>
+<br><br><br>
+
+<table>
+    <tr>
+        <td>序号</td>
+        <td>姓名</td>
+        <td>年龄</td>
+        <td>性别</td>
+        <td>操作</td>
+    </tr>
+    <tr th:each="userObj:${userMap.values()}">
+        <td th:text="${userObjStat.count}">序号</td>
+        <td th:text="${userObj.name}">姓名</td>
+        <td th:text="${userObj.age}">年龄</td>
+        <td th:text="${userObj.sex}">性别</td>
+        <td> <a >删除</a> <a>修改</a> </td>
+
+    </tr>
+</table>
+
+
+<br><br><br>
+==================if判断
+<table>
+    <tr>
+        <td>序号</td>
+        <td>姓名</td>
+        <td>年龄</td>
+        <td>性别</td>
+        <td>操作</td>
+    </tr>
+    <tr th:each="userObj:${userMap.values()}">
+        <td th:text="${userObjStat.count}">序号</td>
+        <td th:text="${userObj.name}">姓名</td>
+        <td th:text="${userObj.age}">年龄</td>
+        <td th:if="${userObj.sex==1}">男</td>
+        <td th:if="${userObj.sex==2}">女</td>
+        <td> <a >删除</a> <a>修改</a> </td>
+
+    </tr>
+</table>
+<br><br><br>
+
+<form>
+    姓名:<input type="text" th:value="${user.name}"><br>
+    年龄:<input type="text" th:value="${user.age}"><br>
+    性别:
+    <span th:if="${user.sex==1}">
+         男<input type="radio" value="1" name="sex" checked> 女<input type="radio" value="2" name="sex">
+    </span>
+    <span th:if="${user.sex==2}">
+         男<input type="radio" value="1" name="sex" > 女<input type="radio" value="2" name="sex" checked>
+    </span>
+    <br>
+    <input type="button" value="修改">
+</form>
+<br><br><br>
+==========th:unless<br>
+if性别:
+<span th:if="${user.sex==1}">
+         男<input type="radio" value="1" name="sex2" checked> 女<input type="radio" value="2" name="sex2">
+    </span>
+<span th:if="${user.sex==2}">
+         男<input type="radio" value="1" name="sex2" > 女<input type="radio" value="2" name="sex2" checked>
+</span>
+
+<br>
+unless性别:
+<span th:unless="${user.sex==1}">
+         男<input type="radio" value="1" name="sex3" checked> 女<input type="radio" value="2" name="sex3">
+    </span>
+<span th:unless="${user.sex==2}">
+         男<input type="radio" value="1" name="sex3" > 女<input type="radio" value="2" name="sex3" checked>
+</span>
+<br>
+
+if取反性别:
+<span th:if="${!(user.sex==1)}">
+         男<input type="radio" value="1" name="sex2" checked> 女<input type="radio" value="2" name="sex2">
+    </span>
+<span th:if="${!(user.sex==2)}">
+         男<input type="radio" value="1" name="sex2" > 女<input type="radio" value="2" name="sex2" checked>
+</span><br><br><br>
+
+<div th:switch="${xingQi}">
+    <span th:case="1">星期一</span>
+    <span th:case="2">星期二</span>
+    <span th:case="3">星期三</span>
+    <span th:case="4">星期四</span>
+    <span th:case="5">星期五</span>
+    <span th:case="6">星期六</span>
+    <span th:case="7">星期日</span>
+    <span th:case="*">数据错误</span>
+</div>
+<br><br><br>
+
+inline内链文本和脚本<br>
+
+用户:<span th:text="${user}"></span><br>
+姓名:[[${user.name}]]  <br>
+年龄:[[${user.getAge()}]] <br>
+性别:[[${user.sex}]] <br><br><br><br><br>
+
+<script th:inline="javascript" type="text/javascript">
+    // alert("姓名"+[[${user.name}]])
+</script>
+<script  type="text/javascript">
+    // alert("姓名"+"[[${user.name}]]"+"  年龄[[${user.getAge()}]]")
+</script>
+
+--------------------------常用属性结束----------------------------------<br><br><br>
+
+
+--------------------------字符串拼接开始----------------------------------<br>
+
+<a th:href="@{'/user/delete?name='+${user.name}+'&age='+${user.age}}">删除</a><br>
+<a th:href="@{|/user/delete?name=${user.name}&age=${user.age}|}">删除</a><br>
+<script th:src="@{|/xxx/xxx.js|}"></script>
+
+--------------------------字符串拼接结束----------------------------------<br><br><br>
+
+
+--------------------------三元运算符开始----------------------------------<br>
+
+姓名:<span th:text="${user.name}"></span><br>
+年龄:<span th:text="${user.getAge()}"></span><br>
+性别: <span th:if="${user.sex==1}">男</span>
+      <span th:if="${user.sex==2}">女</span><br><br><br><br><br>
+
+姓名:<span th:text="${user.name}"></span><br>
+年龄:<span th:text="${user.getAge()}"></span><br>
+性别: <span th:text="${user.sex==1?'男':'女'}">男</span><br><br><br><br><br>
+
+<span th:if="${user.sex==1}">
+         男<input type="radio" value="1" name="sex3" checked> 女<input type="radio" value="2" name="sex3">
+</span>
+<span th:if="${user.sex==2}">
+         男<input type="radio" value="1" name="sex3" > 女<input type="radio" value="2" name="sex3" checked>
+</span><br>
+
+男<input type="radio" value="1" name="sex4" th:attr="checked=${user.sex==1?true:false}">
+女<input type="radio" value="2" name="sex4" th:attr="checked=${user.sex==2?true:false}"><br>
+
+--------------------------三元运算符结束----------------------------------<br><br><br>
+
+
+--------------------------表达式对象开始----------------------------------<br>
+<!--错误的不能自动寻找Session作用域-->
+<!--姓名<span th:text="${userSession.name}"></span>-->
+<!--利用Session对象获取Session中的数据 -->
+姓名<span th:text="${#httpSession.getAttribute('userSession').name}"></span><br>
+姓名<span th:text="${#session.getAttribute('userSession').getName()}"></span><br>
+姓名<span th:text="${session.userSession.name}"></span><br>
+<span th:text="${#request.getContextPath()}"></span><br>
+<span th:text="${#request.getRemoteHost()}"></span><br>
+<span th:text="${#request.getRemoteAddr()}"></span><br>
+[[${#session.getAttribute('userSession').getName()}]]<br>
+[[${#request.getContextPath()}]]<br>
+<script  type="text/javascript">
+     // alert("[[${#request.getContextPath()}]]")
+</script>
+<br><br><br>
+
+当前时间<span th:text="${nowDate}"></span><br>
+
+当前时间<span th:text="${#dates.format(nowDate)}"></span><br>
+当前时间<span th:text="${#dates.format(nowDate,'yyyy-MM-dd')}"></span><br>
+当前时间<span th:text="${#dates.dayOfWeekName(nowDate)}"></span><br>
+
+单价:￥<span th:text="${money}"></span><br>
+单价:<span th:text="${#numbers.formatCurrency(money)}"></span><br>
+--------------------------表达式对象结束----------------------------------<br><br><br>
+</body>
+</html>

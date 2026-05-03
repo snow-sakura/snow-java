@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bjpowernode.fastdfs.mapper.CreditorMapper" >
+  <resultMap id="BaseResultMap" type="com.bjpowernode.fastdfs.model.Creditor" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="real_name" property="realName" jdbcType="VARCHAR" />
+    <result column="id_card" property="idCard" jdbcType="VARCHAR" />
+    <result column="prhone" property="prhone" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="contract_url" property="contractUrl" jdbcType="VARCHAR" />
+    <result column="group_name" property="groupName" jdbcType="VARCHAR" />
+    <result column="remote_file_name" property="remoteFileName" jdbcType="VARCHAR" />
+    <result column="old_file_name" property="oldFileName" jdbcType="VARCHAR" />
+    <result column="file_type" property="fileType" jdbcType="VARCHAR" />
+    <result column="file_size" property="fileSize" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, real_name, id_card, prhone, sex, contract_url, group_name, remote_file_name, 
+    old_file_name, file_type, file_size
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from creditor
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from creditor
+
+  </select>
+
+  <update id="deleteFileById">
+    update creditor set remote_file_name='' where id=#{id}
+
+  </update>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from creditor
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bjpowernode.fastdfs.model.Creditor" >
+    insert into creditor (id, real_name, id_card, 
+      prhone, sex, contract_url, 
+      group_name, remote_file_name, old_file_name, 
+      file_type, file_size)
+    values (#{id,jdbcType=INTEGER}, #{realName,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, 
+      #{prhone,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, #{contractUrl,jdbcType=VARCHAR}, 
+      #{groupName,jdbcType=VARCHAR}, #{remoteFileName,jdbcType=VARCHAR}, #{oldFileName,jdbcType=VARCHAR}, 
+      #{fileType,jdbcType=VARCHAR}, #{fileSize,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bjpowernode.fastdfs.model.Creditor" >
+    insert into creditor
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="realName != null" >
+        real_name,
+      </if>
+      <if test="idCard != null" >
+        id_card,
+      </if>
+      <if test="prhone != null" >
+        prhone,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="contractUrl != null" >
+        contract_url,
+      </if>
+      <if test="groupName != null" >
+        group_name,
+      </if>
+      <if test="remoteFileName != null" >
+        remote_file_name,
+      </if>
+      <if test="oldFileName != null" >
+        old_file_name,
+      </if>
+      <if test="fileType != null" >
+        file_type,
+      </if>
+      <if test="fileSize != null" >
+        file_size,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="realName != null" >
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null" >
+        #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="prhone != null" >
+        #{prhone,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="contractUrl != null" >
+        #{contractUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="groupName != null" >
+        #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="remoteFileName != null" >
+        #{remoteFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="oldFileName != null" >
+        #{oldFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileType != null" >
+        #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null" >
+        #{fileSize,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bjpowernode.fastdfs.model.Creditor" >
+    update creditor
+    <set >
+      <if test="realName != null" >
+        real_name = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null" >
+        id_card = #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="prhone != null" >
+        prhone = #{prhone,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="contractUrl != null" >
+        contract_url = #{contractUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="groupName != null" >
+        group_name = #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="remoteFileName != null" >
+        remote_file_name = #{remoteFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="oldFileName != null" >
+        old_file_name = #{oldFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileType != null" >
+        file_type = #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null" >
+        file_size = #{fileSize,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bjpowernode.fastdfs.model.Creditor" >
+    update creditor
+    set real_name = #{realName,jdbcType=VARCHAR},
+      id_card = #{idCard,jdbcType=VARCHAR},
+      prhone = #{prhone,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      contract_url = #{contractUrl,jdbcType=VARCHAR},
+      group_name = #{groupName,jdbcType=VARCHAR},
+      remote_file_name = #{remoteFileName,jdbcType=VARCHAR},
+      old_file_name = #{oldFileName,jdbcType=VARCHAR},
+      file_type = #{fileType,jdbcType=VARCHAR},
+      file_size = #{fileSize,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

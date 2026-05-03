@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <title>Title</title>
+</head>
+
+<body th:style="'margin:50px;'">
+<table class="table table-striped">
+    <caption>条纹表格布局</caption>
+    <thead>
+    <tr>
+        <th>序号</th>
+        <th>姓名</th>
+        <th>身份证</th>
+        <th>手机</th>
+        <th>性别</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+
+    <tbody>
+
+    <tr th:each="creditorObj :${creditorList}">
+        <td th:text="${creditorObjStat.count}">1</td>
+        <td th:text="${creditorObj.realName}">刘备</td>
+        <td th:text="${creditorObj.idCard}">123456789012345678</td>
+        <td th:text="${creditorObj.prhone}">1301234567890</td>
+        <td th:text="${creditorObj.sex==1?'男':'女'}">男</td>
+        <td>
+            <span th:if="${creditorObj.remoteFileName==null||''==creditorObj.remoteFileName}">
+                <a th:href="@{|/goUpdate/${creditorObj.id}|}">上传</a>
+            </span>
+            <span th:unless="${creditorObj.remoteFileName==null||''==creditorObj.remoteFileName}">
+                 <a th:href="@{|/download/${creditorObj.id}|}">下载</a>
+                <a th:href="@{|/delete/${creditorObj.id}|}">删除</a>
+            </span>
+
+        </td>
+    </tr>
+
+
+    </tbody>
+</table>
+
+</body>
+</html>

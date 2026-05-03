@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bjpowernode.p2padmin.user.mapper.UserInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.bjpowernode.p2padmin.user.model.UserInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="login_count" property="loginCount" jdbcType="INTEGER" />
+    <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
+    <result column="staff_id" property="staffId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, username, password, create_date, login_count, last_login_time, staff_id
+  </sql>
+
+
+  <!-- ========================================== -->
+
+  <resultMap id="UserInfoResultMap" type="com.bjpowernode.p2padmin.user.model.UserInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="login_count" property="loginCount" jdbcType="INTEGER" />
+    <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
+    <result column="staff_id" property="staffId" jdbcType="INTEGER" />
+    <association property="staffInfo" javaType="com.bjpowernode.p2padmin.user.model.StaffInfo">
+      <id column="staff_id" property="id"></id>
+      <result column="email" property="email"></result>
+      <result column="realName" property="realName"></result>
+      <result column="sex" property="sex"></result>
+      <result column="staffNo" property="staffNo"></result>
+      <result column="jobTitle" property="jobTitle"></result>
+      <result column="phone" property="phone"></result>
+    </association>
+  </resultMap>
+
+  <select id="selectUserByUsername" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from u_user_info
+    where username=#{username}
+  </select>
+
+  <select id="selectUserInfoAll" resultMap="UserInfoResultMap"  >
+    select
+    ui.* ,si.phone phone ,si.email email, si.real_name realName ,si.sex sex ,si.staff_no staffNo ,si.job_title jobTitle
+    from u_user_info ui left join u_staff_info si on ui.staff_id= si.id
+
+  </select>
+  <select id="selectUserRoleByUserId" resultType="int">
+    select role_id from u_user_role where user_id=#{userId}
+  </select>
+  <delete id="deleteUserRoleByUserId">
+      delete from u_user_role where user_id=#{userId}
+  </delete>
+  <insert id="insertUserRole">
+     insert into u_user_role(user_id,role_id)values(#{userId},#{roleId})
+  </insert>
+  <!-- ========================================== -->
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from u_user_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from u_user_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bjpowernode.p2padmin.user.model.UserInfo" >
+    insert into u_user_info (id, username, password, 
+      create_date, login_count, last_login_time, 
+      staff_id)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{loginCount,jdbcType=INTEGER}, #{lastLoginTime,jdbcType=TIMESTAMP}, 
+      #{staffId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bjpowernode.p2padmin.user.model.UserInfo" >
+    insert into u_user_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="loginCount != null" >
+        login_count,
+      </if>
+      <if test="lastLoginTime != null" >
+        last_login_time,
+      </if>
+      <if test="staffId != null" >
+        staff_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loginCount != null" >
+        #{loginCount,jdbcType=INTEGER},
+      </if>
+      <if test="lastLoginTime != null" >
+        #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="staffId != null" >
+        #{staffId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bjpowernode.p2padmin.user.model.UserInfo" >
+    update u_user_info
+    <set >
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loginCount != null" >
+        login_count = #{loginCount,jdbcType=INTEGER},
+      </if>
+      <if test="lastLoginTime != null" >
+        last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="staffId != null" >
+        staff_id = #{staffId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bjpowernode.p2padmin.user.model.UserInfo" >
+    update u_user_info
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      login_count = #{loginCount,jdbcType=INTEGER},
+      last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      staff_id = #{staffId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

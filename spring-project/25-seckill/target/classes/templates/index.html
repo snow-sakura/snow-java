@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+    <div th:each="goodsObj : ${goodsList}">
+        <a th:href="@{|/goodsDetail/${goodsObj.id}|}">
+            <img th:src="@{|/${goodsObj.imageUrl}|}">
+        </a>
+        <div>
+            <a th:href="@{|/goodsDetail/${goodsObj.id}|}">
+                [[${goodsObj.name}]] &nbsp;&nbsp; [[${goodsObj.nameDesc}]]<br>
+            </a>
+            [[${goodsObj.price}]]
+        </div>
+
+    </div>
+</body>
+</html>

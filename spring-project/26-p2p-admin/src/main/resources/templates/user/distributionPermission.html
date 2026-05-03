@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" th:href="@{|/ztree/css/demo.css|}" type="text/css">
+    <link rel="stylesheet" th:href="@{|/ztree/css/zTreeStyle/zTreeStyle.css|}" type="text/css">
+    <script type="text/javascript" th:src="@{|/ztree/js/jquery-1.4.4.min.js|}"></script>
+    <script type="text/javascript" th:src="@{|/ztree/js/jquery.ztree.all.js|}"></script>
+    <SCRIPT type="text/javascript">
+
+        var setting = {
+            check: {
+                enable: true
+            },
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            },
+            async: {
+                enable: true,
+                url: "/initPermissionTree/"+"[[${roleId}]]",
+                type: "get"
+            }
+        };
+
+        var zNodes =[
+            { id:1, pId:0, name:"随意勾选 1", open:true},
+            { id:11, pId:1, name:"随意勾选3333 1-1", open:true},
+            { id:111, pId:11, name:"随意勾选 1-1-1"},
+            { id:112, pId:11, name:"随意勾选 1-1-2"},
+            { id:12, pId:1, name:"随意勾选 1-2", open:true},
+            { id:121, pId:12, name:"随意勾选 1-2-1"},
+            { id:122, pId:12, name:"随意勾选 1-2-2"},
+            { id:2, pId:0, name:"随意勾选 2", checked:true, open:true},
+            { id:21, pId:2, name:"随意勾选 2-1"},
+            { id:22, pId:2, name:"随意勾选 2-2", open:true},
+            { id:221, pId:22, name:"随意勾选 2-2-1", checked:true},
+            { id:222, pId:22, name:"随意勾选 2-2-2"},
+            { id:23, pId:2, name:"随意勾选 2-3"}
+        ];
+
+
+
+        $(document).ready(function(){
+            $.fn.zTree.init($("#treeDemo"), setting, null);
+            $("#disPermissionBut").bind("click",function(){
+
+                var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+                var nodes = treeObj.getCheckedNodes(true);
+                var v_perIds="";
+                for(var i=0;i<nodes.length;i++){
+
+                    v_perIds+="&perId="+nodes[i].id
+                }
+
+                $.get("/disPermission?roleId=[[${roleId}]]"+v_perIds,
+                   null,
+                    function(data){
+                        if(data!="ok"){
+                            alert("分配失败")
+                        }
+
+                        if(confirm("权限分配成功点击确定返回列表页面！")){
+                            window.location.href="/admin/roles"
+                        }
+                    },
+                    "text")
+            })
+        });
+
+    </SCRIPT>
+</head>
+<body>
+    <ul id="treeDemo" class="ztree"></ul>
+<button type="button" id="disPermissionBut">
+    权限分配
+</button>
+
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{|/js/jquery.min.js|}"></script>
+    <script th:src="@{|/js/jquery.countdown.min.js|}"></script>
+    <script th:src="@{|/js/seckill.js|}"></script>
+</head>
+<body>
+<div>
+
+    <img th:src="@{|/${goods.imageUrl}|}" style="float: left">
+    <div style="float:left">
+        [[${goods.name}]]<br>
+        [[${goods.nameDesc}]]<br>
+        [[${goods.price}]]<br>
+
+        <span id="seckillBox">
+
+        </span>
+    </div>
+</div>
+
+
+<script>
+    // var v_name='张三'
+    // window.setTimeout("aa(v_name)",3000);
+    // function aa(name){
+    //
+    //     alert("aa方法"+name)
+    //
+    //     window.setTimeout("aa(v_name)",3000);
+    // }
+
+
+    $(function(){
+        // nowDate =new Date();
+        // tarDate=new Date(nowDate.getTime()+1000*60*60*24)
+        // $("#seckillBox").countdown(tarDate,function(event){
+        //     $("#seckillBox").html(event.strftime("距离吃饭还有: %Y年 %m月 %D天 %H小时 %M分钟 %S秒" ))
+        //
+        // })
+
+        secKillObj.fun.initDetail("[[${goods.id}]]","[[${goods.startTime.getTime()}]]","[[${goods.endTime.getTime()}]]","[[${goods.randomName}]]")
+    })
+
+</script>
+</body>
+</html>
