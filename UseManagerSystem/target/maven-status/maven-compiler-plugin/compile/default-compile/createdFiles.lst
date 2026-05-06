@@ -1,0 +1,8 @@
+com\snow\usermgt\mapper\UserMapper.class
+com\snow\usermgt\config\DatabaseInitializer.class
+com\snow\usermgt\Application.class
+com\snow\usermgt\config\DataSourceConfig.class
+com\snow\usermgt\config\SwaggerConfig.class
+com\snow\usermgt\entity\User.class
+com\snow\usermgt\service\UserService.class
+com\snow\usermgt\controller\UserController.class

@@ -1,0 +1,4 @@
+com\snow\usermgt\controller\UserControllerTest.class
+com\snow\usermgt\service\UserServiceTest.class
+com\snow\usermgt\mapper\UserMapperTest.class
+com\snow\usermgt\ApplicationStartupTest.class
